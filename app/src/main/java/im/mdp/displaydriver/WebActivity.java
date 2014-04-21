@@ -19,7 +19,7 @@ public class WebActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
-        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setWebViewClient(new DerryWebClient(this));
         mWebView.setWebChromeClient(new DerryChromeClient(this));
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), "AndroidHost");
