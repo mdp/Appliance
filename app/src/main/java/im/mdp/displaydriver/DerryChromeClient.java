@@ -1,6 +1,7 @@
 package im.mdp.displaydriver;
 
 import android.content.Context;
+import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -12,6 +13,7 @@ import android.widget.Toast;
  */
 public class DerryChromeClient extends WebChromeClient {
 
+    private static final String TAG = "Derry";
     private Context mContext;
 
     DerryChromeClient (Context context) {
@@ -20,14 +22,17 @@ public class DerryChromeClient extends WebChromeClient {
 
     @Override
     public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-        Toast.makeText(mContext, "Alert: " + message, Toast.LENGTH_LONG).show();
-        // return super.onJsAlert(view, url, message, result);
-        return true;
+        Log.d(TAG, "Alert: " + message);
+        return super.onJsAlert(view, url, message, result);
     }
 
     @Override
-    public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-        Toast.makeText(mContext, consoleMessage.toString(), Toast.LENGTH_SHORT).show();
+    public boolean onConsoleMessage(ConsoleMessage cm) {
+        String msg = (cm.message() + " -- From line "
+                + cm.lineNumber() + " of "
+                + cm.sourceId());
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Console: " + msg);
         return true;
     }
 }

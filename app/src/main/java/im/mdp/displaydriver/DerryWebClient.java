@@ -19,6 +19,6 @@ public class DerryWebClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         super.onReceivedError(view, errorCode, description, failingUrl);
-        Toast.makeText(mContext, description, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Error: "+ description, Toast.LENGTH_SHORT).show();
     }
 }
