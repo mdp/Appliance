@@ -1,8 +1,11 @@
 package im.mdp.displaydriver;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Handler;
+import android.text.Layout;
 import android.util.Log;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -20,6 +23,16 @@ public class JavascriptBridgeInterface {
     public void watchdog(int delayMillis) {
         Toast.makeText(mHandler, "watchdog", Toast.LENGTH_SHORT).show();
         delayedReload(delayMillis);
+    }
+
+    @JavascriptInterface
+    public String getOrientation() {
+        int o = mHandler.getResources().getConfiguration().orientation;
+        if (o == Configuration.ORIENTATION_LANDSCAPE) {
+            return "L";
+        } else {
+            return "P";
+        }
     }
 
     @JavascriptInterface
