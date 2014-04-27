@@ -1,4 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+exports.shim = {
+  setOrientation: function(t){
+    console.log("setOrientation - " + t);
+  },
+  getOrientation: function(){
+    console.log("getOrientation");
+  },
+  watchdog: function(time){
+    console.log("watchdog - " + time);
+  }
+}
+
+},{}],2:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.0
  * http://jquery.com/
@@ -9111,19 +9124,20 @@ return jQuery;
 
 }));
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var $ = window.$ = require('jquery');
-var Derry = window.Derry;
+var derryShim = require('derryshim').shim;
+var Derry = window.Derry || derryShim;
 
 var start =  function () {
   console.log("started");
 }
 
 function setupButtons() {
-  $("watchdogBtn").click(function () {
+  $("#watchdogBtn").click(function () {
     Derry.watchdog(10000);
   })
-  $("orientationBtn").click(function () {
+  $("#orientationBtn").click(function () {
     if (Derry.getOrientation() === "L") {
       Derry.setOrientation('P');
     } else {
@@ -9137,4 +9151,4 @@ $(document).ready(function(){
   start();
 })
 
-},{"jquery":1}]},{},[2])
+},{"derryshim":1,"jquery":2}]},{},[3])

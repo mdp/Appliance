@@ -3,9 +3,7 @@ package im.mdp.displaydriver;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -37,12 +35,12 @@ public class JavascriptBridgeInterface {
 
     @JavascriptInterface
     public void setOrientation(String orientation) {
-        Log.d(TAG, orientation);
+        Log.d(Derry.TAG, orientation);
         if (orientation.toUpperCase().equals("L")) {
-            Log.d(TAG, "SetOrientation Landscape");
+            Log.d(Derry.TAG, "SetOrientation Landscape");
             mHandler.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
-            Log.d(TAG, "SetOrientation Portrait");
+            Log.d(Derry.TAG, "SetOrientation Portrait");
             mHandler.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }

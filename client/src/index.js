@@ -1,15 +1,16 @@
 var $ = window.$ = require('jquery');
-var Derry = window.Derry;
+var derryShim = require('derryshim').shim;
+var Derry = window.Derry || derryShim;
 
 var start =  function () {
   console.log("started");
 }
 
 function setupButtons() {
-  $("watchdogBtn").click(function () {
+  $("#watchdogBtn").click(function () {
     Derry.watchdog(10000);
   })
-  $("orientationBtn").click(function () {
+  $("#orientationBtn").click(function () {
     if (Derry.getOrientation() === "L") {
       Derry.setOrientation('P');
     } else {

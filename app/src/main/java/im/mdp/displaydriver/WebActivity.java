@@ -20,9 +20,9 @@ public class WebActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         goFullScreen();
         preventSleep(true);
+        setContentView(R.layout.activity_main);
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
         mWebView.setWebViewClient(new DerryWebClient(this));
         mWebView.setWebChromeClient(new DerryChromeClient(this));
