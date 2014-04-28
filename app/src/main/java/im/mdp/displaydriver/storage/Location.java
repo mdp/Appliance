@@ -1,4 +1,4 @@
-package im.mdp.displaydriver;
+package im.mdp.displaydriver.storage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Created by mdp on 4/24/14.
  */
-public class AppletModel {
+public class Location {
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_URL = "url";
@@ -20,7 +20,7 @@ public class AppletModel {
     private String mUrl;
     private Date mDate = new Date();
 
-    public AppletModel(JSONObject json) throws JSONException {
+    public Location(JSONObject json) throws JSONException {
         mId = UUID.fromString(json.getString(JSON_URL));
         if (json.has(JSON_TITLE)) {
             mTitle = json.getString(JSON_TITLE);
@@ -30,6 +30,12 @@ public class AppletModel {
 
     }
 
+    public Location(String url) {
+        mId = UUID.randomUUID();
+        mUrl = url;
+        mDate = new Date();
+    }
+
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put(JSON_ID, mId.toString());
@@ -37,6 +43,14 @@ public class AppletModel {
         json.put(JSON_URL, mUrl);
         json.put(JSON_DATE, mDate.getTime());
         return json;
+    }
+
+    public UUID getId() {
+        return mId;
+    }
+
+    public String getUrl() {
+        return mUrl;
     }
 
     @Override

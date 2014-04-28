@@ -14,7 +14,8 @@ import android.webkit.WebViewClient;
 
 public class WebActivity extends ActionBarActivity {
 
-    public final String URL = "file:///android_asset/index.html";
+    public static final String URL_FIELD = "URL";
+    public final String DEFAULT_URL = "file:///android_asset/index.html";
     public WebView mWebView;
 
     @Override
@@ -23,12 +24,18 @@ public class WebActivity extends ActionBarActivity {
         goFullScreen();
         preventSleep(true);
         setContentView(R.layout.activity_main);
+        String urlToLoad = (String) getIntent()
+                .getSerializableExtra(URL_FIELD);
+
+        if (urlToLoad.isEmpty()) {
+            urlToLoad = DEFAULT_URL;
+        }
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
         mWebView.setWebViewClient(new DerryWebClient(this));
         mWebView.setWebChromeClient(new DerryChromeClient(this));
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), "Derry");
-        mWebView.loadUrl(URL);
+        mWebView.loadUrl(urlToLoad);
     }
 
     public void preventSleep(boolean enabled) {
@@ -51,7 +58,7 @@ public class WebActivity extends ActionBarActivity {
     }
 
     public void reload() {
-        mWebView.loadUrl(URL);
+        mWebView.loadUrl(DEFAULT_URL);
     }
 
     @Override

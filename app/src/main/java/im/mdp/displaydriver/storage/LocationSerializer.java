@@ -1,4 +1,4 @@
-package im.mdp.displaydriver;
+package im.mdp.displaydriver.storage;
 
 import android.content.Context;
 
@@ -19,17 +19,17 @@ import java.util.ArrayList;
 /**
  * Created by mdp on 4/27/14.
  */
-public class AppletModelSerializer {
+public class LocationSerializer {
 
     private Context mContext;
     private String mFilename;
-    public AppletModelSerializer(Context c, String f) {
+    public LocationSerializer(Context c, String f) {
         mContext = c;
         mFilename = f;
     }
 
-    public ArrayList<AppletModel> loadApplets() throws IOException, JSONException {
-        ArrayList<AppletModel> applets = new ArrayList<AppletModel>();
+    public ArrayList<Location> loadLocations() throws IOException, JSONException {
+        ArrayList<Location> locations = new ArrayList<Location>();
         BufferedReader reader = null;
         try {
             // Open and read the file into a StringBuilder
@@ -44,9 +44,9 @@ public class AppletModelSerializer {
             // Parse the JSON using JSONTokener
             JSONArray array = (JSONArray) new JSONTokener(jsonString.toString())
                     .nextValue();
-            // Build the array of applets from JSONObjects
+            // Build the array of locations from JSONObjects
             for (int i = 0; i < array.length(); i++) {
-                applets.add(new AppletModel(array.getJSONObject(i)));
+                locations.add(new Location(array.getJSONObject(i)));
             }
         } catch (FileNotFoundException e) {
             // Ignore this one; it happens when starting fresh
@@ -54,16 +54,16 @@ public class AppletModelSerializer {
             if (reader != null)
                 reader.close();
         }
-        return applets;
+        return locations;
     }
 
 
-    public void saveApplets(ArrayList<AppletModel> applets)
+    public void saveLocations(ArrayList<Location> locations)
             throws JSONException, IOException {
         // Build an array in JSON
         JSONArray array = new JSONArray();
-        for (AppletModel a : applets)
-            array.put(a.toJSON());
+        for (Location l : locations)
+            array.put(l.toJSON());
         // Write the file to disk
         Writer writer = null;
         try {
