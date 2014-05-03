@@ -35,15 +35,9 @@ public class WebActivity extends ActionBarActivity {
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
-    private static final boolean TOGGLE_ON_CLICK = true;
-
-    /**
      * The flags to pass to {@link SystemUiHider#getInstance}.
      */
-    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION | SystemUiHider.FLAG_FULLSCREEN;
+    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
     public static final String URL_FIELD = "URL";
     private static final String TAG = Derry.TAG + ":WebActivity";
@@ -71,7 +65,6 @@ public class WebActivity extends ActionBarActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), "Derry");
         mWebView.loadUrl(urlToLoad);
-        delayedHide(0);
     }
 
     public void preventSleep(boolean enabled) {
@@ -85,23 +78,24 @@ public class WebActivity extends ActionBarActivity {
     public void enableFullScreenMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             immersiveMode();
-        }
-        final View contentView = findViewById(R.id.fullscreen_webview);
-        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
-        mSystemUiHider.setup();
-        mSystemUiHider
-                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
+        } else {
+            final View contentView = findViewById(R.id.fullscreen_webview);
+            mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+            mSystemUiHider.setup();
+            mSystemUiHider
+                    .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
 
-                    @Override
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-                    public void onVisibilityChange(boolean visible) {
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
+                        @Override
+                        @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+                        public void onVisibilityChange(boolean visible) {
+                            if (visible && AUTO_HIDE) {
+                                // Schedule a hide().
+                                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+                            }
                         }
-                    }
-                });
-
+                    });
+            delayedHide(100);
+        }
     }
 
     public void immersiveMode() {
@@ -144,6 +138,7 @@ public class WebActivity extends ActionBarActivity {
     Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.i(TAG, "Hide me!");
             mSystemUiHider.hide();
         }
     };
