@@ -21,7 +21,7 @@ public class Location {
     private Date mDate = new Date();
 
     public Location(JSONObject json) throws JSONException {
-        mId = UUID.fromString(json.getString(JSON_URL));
+        mId = UUID.fromString(json.getString(JSON_ID));
         if (json.has(JSON_TITLE)) {
             mTitle = json.getString(JSON_TITLE);
         }

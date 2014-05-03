@@ -43,6 +43,11 @@ public class LocationCollection {
         return null;
     }
 
+    public void deleteAllLocations() {
+       mLocations.clear();
+       saveLocations();
+    }
+
     public void addLocation(Location a) {
         mLocations.add(a);
         saveLocations();
