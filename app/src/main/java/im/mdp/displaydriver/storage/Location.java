@@ -27,7 +27,6 @@ public class Location {
         }
         mUrl = json.getString(JSON_URL);
         mDate = new Date(json.getLong(JSON_DATE));
-
     }
 
     public Location(String url) {
@@ -35,6 +34,12 @@ public class Location {
         mUrl = url;
         mDate = new Date();
     }
+
+    public Location() {
+        mId = UUID.randomUUID();
+        mDate = new Date();
+    }
+
 
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();

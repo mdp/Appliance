@@ -1,20 +1,16 @@
 package im.mdp.displaydriver;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -51,7 +47,31 @@ public class LocationListFragment extends ListFragment {
         mLocations = LocationDummy.create(getActivity()).getLocations();
         mAdapter = new ArrayAdapter<Location>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, mLocations);
+        setHasOptionsMenu(true);
         setListAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //TODO: Notify data set changed
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_location_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_new_location:
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
+                startActivityForResult(intent, 0);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

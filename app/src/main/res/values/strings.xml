@@ -10,5 +10,7 @@
     <string name="title_activity_location_list">LocationListActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="title">Derry</string>
+    <string name="title_activity_location">Location</string>
 
 </resources>
