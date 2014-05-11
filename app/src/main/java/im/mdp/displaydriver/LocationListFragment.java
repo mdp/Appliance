@@ -1,16 +1,22 @@
 package im.mdp.displaydriver;
 
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -20,6 +26,8 @@ import im.mdp.displaydriver.storage.LocationDummy;
 
 public class LocationListFragment extends ListFragment {
 
+
+    private static final String TAG = Derry.TAG + ":LocationListFragment";
     private ArrayList<Location> mLocations;
 
     /**
@@ -45,8 +53,7 @@ public class LocationListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         mLocations = LocationDummy.create(getActivity()).getLocations();
-        mAdapter = new ArrayAdapter<Location>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, mLocations);
+        mAdapter = new LocationItemView(mLocations);
         setHasOptionsMenu(true);
         setListAdapter(mAdapter);
     }
@@ -77,8 +84,55 @@ public class LocationListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent i = new Intent(getActivity(), WebActivity.class);
-        i.putExtra(WebActivity.URL_FIELD, mLocations.get(position).getUrl());
-        startActivity(i);
+        Intent intent = new Intent(getActivity(), LocationActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    public class LocationItemView extends ArrayAdapter<Location> {
+
+        private static final int LOCATION_ID = 0;
+
+        public LocationItemView(ArrayList<Location> items) {
+            super(getActivity(), 0, items);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // If we weren't given a view, inflate one
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater()
+                        .inflate(R.layout.location_list_item, null);
+            }
+            // Configure the view for this Crime
+            Location l = getItem(position);
+            TextView titleTextView =
+                    (TextView) convertView.findViewById(R.id.locationListItemText);
+            titleTextView.setText(l.getUrl());
+            //titleTextView.setOnClickListener(listItemListener);
+            convertView.setOnClickListener(listItemListener);
+            ImageButton playBtn = (ImageButton) convertView.findViewById(R.id.locationListItemPlayBtn);
+            playBtn.setTag(R.id.locationListItemPlayBtn, l);
+            playBtn.setOnClickListener(playBtnListener);
+            return convertView;
+        }
+
+        private View.OnClickListener listItemListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        };
+
+        private View.OnClickListener playBtnListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location l = (Location) v.getTag(R.id.locationListItemPlayBtn);
+                Log.d(TAG, "playbutton clicked " + l.getUrl());
+                Intent i = new Intent(getActivity(), WebActivity.class);
+                i.putExtra(WebActivity.URL_FIELD, l.getUrl());
+                startActivity(i);
+            }
+        };
     }
 }
