@@ -14,4 +14,5 @@ Building Internet Appliances out of shitty Android devices
 
 - Javascript Bridge to HTTP (Full access to make requests)
 - Client-side shim
+- IOIO integration
 
