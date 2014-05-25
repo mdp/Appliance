@@ -48,9 +48,28 @@ public class LocationCollection {
        saveLocations();
     }
 
-    public void addLocation(Location a) {
+    public void saveLocation(Location a) {
+        for (int i = 0; i < mLocations.size(); i++) {
+            Location l = mLocations.get(i);
+            if (l.getId() == a.getId()) {
+                mLocations.set(i, a);
+                saveLocations();
+                return;
+            }
+        }
         mLocations.add(a);
         saveLocations();
+    }
+
+    public void deleteLocaiton(Location mLocation) {
+        for (int i = 0; i < mLocations.size(); i++) {
+            Location l = mLocations.get(i);
+            if (l.getId() == mLocation.getId()) {
+                mLocations.remove(i);
+                saveLocations();
+                return;
+            }
+        }
     }
 
     public ArrayList<Location> getLocations() {

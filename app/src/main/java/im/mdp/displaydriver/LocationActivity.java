@@ -1,9 +1,14 @@
 package im.mdp.displaydriver;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,63 +16,71 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.UUID;
 
 import im.mdp.displaydriver.storage.Location;
+import im.mdp.displaydriver.storage.LocationCollection;
+import im.mdp.displaydriver.util.OkCancelDialog;
 
 
-public class LocationActivity extends Activity {
+public class LocationActivity extends Activity{
+
+    private static final String TAG = Derry.TAG + ":LocationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("New Location");
         setContentView(R.layout.activity_fragment);
+        UUID uuid = (UUID)getIntent()
+                .getSerializableExtra(LocationFragment.LOCATION_ID);
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
-            fragment = new LocationFragment();
+            fragment = LocationFragment.newInstance(uuid);
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
                     .commit();
         }
     }
 
-    public static class LocationFragment extends Fragment {
+    public static class LocationFragment extends Fragment implements OkCancelDialog.OkCancelDialogListener{
 
         private static final String TAG = Derry.TAG + ":LocationFragment";
-        private static final String LOCATION_ID = "location_fragment.location_id";
+        public static final String LOCATION_ID = "location_fragment.location_id";
         private Location mLocation;
+        private EditText mTitleField;
+        private EditText mUrlField;
 
         public static LocationFragment newInstance(UUID locationId) {
-            Log.d(TAG, "newInstance!");
+            LocationFragment fragment = new LocationFragment();
             Bundle args = new Bundle();
             args.putSerializable(LOCATION_ID, locationId);
-
-            LocationFragment fragment = new LocationFragment();
             fragment.setArguments(args);
-
             return fragment;
         }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
+            UUID locationId = (UUID)getArguments().getSerializable(LOCATION_ID);
+            if (locationId == null) {
+                mLocation = new Location();
+            } else {
+                mLocation = LocationCollection.get(getActivity()).getLocation(locationId);
+            }
             setHasOptionsMenu(true);
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.location_fragment, container, false);
-            Log.d(TAG, "WTF");
-            Log.d(TAG, Integer.toString(R.layout.location_fragment, 16));
-            Log.d(TAG, container.toString());
-            if (container ==  null) {
-                Log.d(TAG, "Container is null");
-            }
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            mTitleField =  (EditText) v.findViewById(R.id.location_title);
+            mUrlField =  (EditText) v.findViewById(R.id.location_url);
+            mUrlField.setText(mLocation.getUrl());
+            mTitleField.setText(mLocation.getTitle());
             return v;
         }
 
@@ -80,11 +93,52 @@ public class LocationActivity extends Activity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.menu_item_new_location:
+                case R.id.menu_item_save_location:
+                    Log.d(TAG, "Save the location");
+                    saveRecord();
+                    return super.onOptionsItemSelected(item);
+                case R.id.menu_item_delete_location:
+                    Log.d(TAG, "Delete the location");
+                    deleteRecord(false);
+                    return super.onOptionsItemSelected(item);
+                case android.R.id.home:
+                    NavUtils.navigateUpFromSameTask(getActivity());
                     return super.onOptionsItemSelected(item);
                 default:
                     return super.onOptionsItemSelected(item);
             }
+        }
+
+        private void saveRecord() {
+            mLocation.setTitle(mTitleField.getText().toString());
+            mLocation.setUrl(mUrlField.getText().toString());
+            LocationCollection.get(getActivity()).saveLocation(mLocation);
+            getActivity().finish();
+        }
+
+        private void deleteRecord(boolean sure) {
+            if (sure) {
+                LocationCollection.get(getActivity()).deleteLocaiton(mLocation);
+                getActivity().finish();
+            } else {
+                OkCancelDialog dialog = new OkCancelDialog();
+                Bundle args = new Bundle();
+                args.putString("message", "Are you sure?");
+                dialog.setArguments(args);
+                dialog.setTargetFragment(this, 0);
+                dialog.show(getFragmentManager(), "okcancel");
+            }
+        }
+
+        @Override
+        public void onDialogOkClick (DialogFragment dialog) {
+            Log.d(TAG, "OK");
+            deleteRecord(true);
+        }
+
+        @Override
+        public void onDialogCancelClick (DialogFragment dialog) {
+            Log.d(TAG, "Cancel");
         }
 
     }

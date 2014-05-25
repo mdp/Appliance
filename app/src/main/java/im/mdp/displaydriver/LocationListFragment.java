@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import im.mdp.displaydriver.storage.Location;
+import im.mdp.displaydriver.storage.LocationCollection;
 import im.mdp.displaydriver.storage.LocationDummy;
 
 public class LocationListFragment extends ListFragment {
@@ -52,7 +53,8 @@ public class LocationListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLocations = LocationDummy.create(getActivity()).getLocations();
+        // mLocations = LocationDummy.create(getActivity()).getLocations();
+        mLocations = LocationCollection.get(getActivity()).getLocations();
         mAdapter = new LocationItemView(mLocations);
         setHasOptionsMenu(true);
         setListAdapter(mAdapter);
@@ -60,8 +62,9 @@ public class LocationListFragment extends ListFragment {
 
     @Override
     public void onResume() {
+        Log.d(TAG, "Resume!");
+        ((ArrayAdapter)getListAdapter()).notifyDataSetChanged();
         super.onResume();
-        //TODO: Notify data set changed
     }
 
     @Override
@@ -76,9 +79,16 @@ public class LocationListFragment extends ListFragment {
             case R.id.menu_item_new_location:
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
                 startActivityForResult(intent, 0);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "ActivityResult");
+        ((LocationItemView)getListAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -107,19 +117,22 @@ public class LocationListFragment extends ListFragment {
             Location l = getItem(position);
             TextView titleTextView =
                     (TextView) convertView.findViewById(R.id.locationListItemText);
-            titleTextView.setText(l.getUrl());
-            //titleTextView.setOnClickListener(listItemListener);
-            convertView.setOnClickListener(listItemListener);
+            titleTextView.setText(l.toString());
             ImageButton playBtn = (ImageButton) convertView.findViewById(R.id.locationListItemPlayBtn);
             playBtn.setTag(R.id.locationListItemPlayBtn, l);
             playBtn.setOnClickListener(playBtnListener);
+            convertView.setTag(R.id.locationListItemPlayBtn, l);
+            convertView.setOnClickListener(listItemListener);
             return convertView;
         }
 
         private View.OnClickListener listItemListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Location l = (Location) v.getTag(R.id.locationListItemPlayBtn);
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
+                Log.d(TAG, l.getUrl());
+                intent.putExtra(LocationActivity.LocationFragment.LOCATION_ID, l.getId());
                 startActivityForResult(intent, 0);
             }
         };

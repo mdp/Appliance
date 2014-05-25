@@ -7,9 +7,12 @@ android:layout_height="match_parent">
     android:id="@+id/locationListItemText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:layout_alignParentTop="true"
     android:layout_marginLeft="10dp"
-    android:textSize="15dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="15dp"
+    android:minHeight="45dp"
     android:text="Item" />
 
 <ImageButton
@@ -17,7 +20,7 @@ android:layout_height="match_parent">
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
-    android:layout_alignParentTop="true"
+    android:gravity="center_vertical"
     android:layout_toLeftOf="@id/locationListItemText"
     android:src="@android:drawable/ic_media_play"/>
 

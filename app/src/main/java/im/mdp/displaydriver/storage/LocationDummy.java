@@ -9,8 +9,8 @@ public class LocationDummy {
     public static LocationCollection create(Context context) {
         LocationCollection lc = LocationCollection.get(context);
         lc.deleteAllLocations();
-        lc.addLocation(new Location("http://www.nytimes.com"));
-        lc.addLocation(new Location("http://www.techmeme.com"));
+        lc.saveLocation(new Location("http://www.nytimes.com"));
+        lc.saveLocation(new Location("http://www.techmeme.com"));
         return lc;
     }
 }

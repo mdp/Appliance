@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Derry</string>
+    <string name="app_name">Appliance</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_location_list">LocationListActivity</string>
+    <string name="title_activity_location_list">Appliance</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="title">Derry</string>
+    <string name="title">Appliance</string>
     <string name="title_activity_location">Location</string>
 
 </resources>

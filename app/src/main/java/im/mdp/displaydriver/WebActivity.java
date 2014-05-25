@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -62,9 +63,21 @@ public class WebActivity extends ActionBarActivity {
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
         mWebView.setWebViewClient(new DerryWebClient(this));
         mWebView.setWebChromeClient(new DerryChromeClient(this));
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = mWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        String databasePath = this.getApplicationContext().getDir("databases", Context.MODE_PRIVATE).getPath();
+        settings.setDatabasePath(databasePath);
         mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), "Derry");
         mWebView.loadUrl(urlToLoad);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        enableFullScreenMode();
+        preventSleep(true);
     }
 
     public void preventSleep(boolean enabled) {

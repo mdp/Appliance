@@ -4,13 +4,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Title"
+        android:id="@+id/location_title"
+        android:inputType="textCapWords"
+        android:layout_gravity="center_horizontal|top" />
+
    <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:hint="URL"
-    android:id="@+id/new_location_url"
+    android:id="@+id/location_url"
+    android:inputType="textUri"
     android:layout_gravity="center_horizontal|top" />
 
 </LinearLayout>
