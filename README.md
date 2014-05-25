@@ -1,4 +1,4 @@
-![Logo](https://s3.amazonaws.com/img.mdp.im/2014m252014m25Appliancepkmvb93h8r.png)
+![Logo](https://s3.amazonaws.com/img.mdp.im/2014m252014m25Appliancepkmvb9lry5.png)
 
 ## Appliance
 
