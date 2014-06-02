@@ -1,12 +1,9 @@
 package im.mdp.displaydriver;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -27,7 +24,7 @@ import im.mdp.displaydriver.util.OkCancelDialog;
 
 public class LocationActivity extends Activity{
 
-    private static final String TAG = Derry.TAG + ":LocationActivity";
+    private static final String TAG = Appliance.TAG + ":LocationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,7 @@ public class LocationActivity extends Activity{
 
     public static class LocationFragment extends Fragment implements OkCancelDialog.OkCancelDialogListener{
 
-        private static final String TAG = Derry.TAG + ":LocationFragment";
+        private static final String TAG = Appliance.TAG + ":LocationFragment";
         public static final String LOCATION_ID = "location_fragment.location_id";
         private Location mLocation;
         private EditText mTitleField;

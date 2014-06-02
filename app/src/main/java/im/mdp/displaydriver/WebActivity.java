@@ -1,7 +1,6 @@
 package im.mdp.displaydriver;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
@@ -13,11 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import im.mdp.displaydriver.util.SystemUiHider;
 
@@ -41,7 +37,8 @@ public class WebActivity extends ActionBarActivity {
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
     public static final String URL_FIELD = "URL";
-    private static final String TAG = Derry.TAG + ":WebActivity";
+    public static final String JS_GLOBAL = "ApplianceBridge";
+    private static final String TAG = Appliance.TAG + ":WebActivity";
     public final String DEFAULT_URL = "file:///android_asset/index.html";
     public WebView mWebView;
     private SystemUiHider mSystemUiHider;
@@ -49,6 +46,11 @@ public class WebActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         // No title in this view
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -69,8 +71,16 @@ public class WebActivity extends ActionBarActivity {
         settings.setDatabaseEnabled(true);
         String databasePath = this.getApplicationContext().getDir("databases", Context.MODE_PRIVATE).getPath();
         settings.setDatabasePath(databasePath);
-        mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), "Derry");
+        mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), JS_GLOBAL);
         mWebView.loadUrl(urlToLoad);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "Stopped");
+        mWebView.stopLoading();
+        mWebView.destroy();
     }
 
     @Override

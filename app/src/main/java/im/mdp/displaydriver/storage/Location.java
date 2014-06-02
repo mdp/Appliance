@@ -1,14 +1,12 @@
 package im.mdp.displaydriver.storage;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.UUID;
 
-import im.mdp.displaydriver.Derry;
+import im.mdp.displaydriver.Appliance;
 
 /**
  * Created by mdp on 4/24/14.
@@ -18,7 +16,7 @@ public class Location {
     private static final String JSON_TITLE = "title";
     private static final String JSON_URL = "url";
     private static final String JSON_DATE = "date";
-    private static final String TAG = Derry.TAG + ":LocationModel";
+    private static final String TAG = Appliance.TAG + ":LocationModel";
 
     private UUID mId;
     private String mTitle;
