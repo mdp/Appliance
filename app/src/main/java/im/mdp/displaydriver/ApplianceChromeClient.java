@@ -11,12 +11,12 @@ import android.widget.Toast;
 /**
  * Created by mdp on 4/20/14.
  */
-public class DerryChromeClient extends WebChromeClient {
+public class ApplianceChromeClient extends WebChromeClient {
 
     private static final String TAG = "Derry";
     private Context mContext;
 
-    DerryChromeClient (Context context) {
+    ApplianceChromeClient(Context context) {
         mContext = context;
     }
 

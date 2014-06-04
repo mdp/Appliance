@@ -8,11 +8,11 @@ import android.widget.Toast;
 /**
  * Created by mdp on 4/21/14.
  */
-public class DerryWebClient extends WebViewClient {
+public class ApplianceWebClient extends WebViewClient {
 
     private Context mContext;
 
-    DerryWebClient (Context context) {
+    ApplianceWebClient(Context context) {
         mContext = context;
     }
 

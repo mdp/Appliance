@@ -63,8 +63,8 @@ public class WebActivity extends ActionBarActivity {
             urlToLoad = DEFAULT_URL;
         }
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
-        mWebView.setWebViewClient(new DerryWebClient(this));
-        mWebView.setWebChromeClient(new DerryChromeClient(this));
+        mWebView.setWebViewClient(new ApplianceWebClient(this));
+        mWebView.setWebChromeClient(new ApplianceChromeClient(this));
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);

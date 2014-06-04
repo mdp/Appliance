@@ -10,17 +10,31 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release
+    }
     buildTypes {
         release {
-            runProguard false
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
+}
+
+if (hasProperty('StoreFile')) {
+    println "StoreFile Found"
+    android.signingConfigs.release.storeFile = file(StoreFile)
+    android.signingConfigs.release.storePassword = StorePassword
+    android.signingConfigs.release.keyAlias = KeyAlias
+    android.signingConfigs.release.keyPassword = KeyPassword
+} else {
+    println "No StoreFile Found - Ain't Signin shit"
+    android.buildTypes.release.signingConfig = null
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.android.support:support-v4:19.+'
-    compile 'org.apache.httpcomponents:httpclient:4.3.3'
 }
