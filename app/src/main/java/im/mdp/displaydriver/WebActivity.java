@@ -46,15 +46,15 @@ public class WebActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // No title in this view
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
         enableFullScreenMode();
+        setContentView(R.layout.activity_main);
         preventSleep(true);
         String urlToLoad = (String) getIntent()
                 .getSerializableExtra(URL_FIELD);

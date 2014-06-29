@@ -63,17 +63,17 @@ public class JavascriptBridgeInterface {
 
     @JavascriptInterface
     public String getOrientation() {
+        Log.d(TAG, "Get Orientation");
         int o = mHandler.getResources().getConfiguration().orientation;
         if (o == Configuration.ORIENTATION_LANDSCAPE) {
             return "L";
-        } else {
-            return "P";
         }
+        return "P";
     }
 
     @JavascriptInterface
     public void setOrientation(String orientation) {
-        Log.d(Appliance.TAG, orientation);
+        Log.d(TAG, "Set orientation: " + orientation);
         if (orientation.toUpperCase().equals("L")) {
             Log.d(Appliance.TAG, "SetOrientation Landscape");
             mHandler.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
