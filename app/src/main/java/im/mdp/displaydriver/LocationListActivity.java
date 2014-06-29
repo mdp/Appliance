@@ -1,11 +1,11 @@
 package im.mdp.displaydriver;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
-public class LocationListActivity extends Activity {
+public class LocationListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

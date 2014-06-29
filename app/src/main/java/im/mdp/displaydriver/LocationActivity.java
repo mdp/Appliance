@@ -1,11 +1,11 @@
 package im.mdp.displaydriver;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +22,7 @@ import im.mdp.displaydriver.storage.LocationCollection;
 import im.mdp.displaydriver.util.OkCancelDialog;
 
 
-public class LocationActivity extends Activity{
+public class LocationActivity extends ActionBarActivity{
 
     private static final String TAG = Appliance.TAG + ":LocationActivity";
 
