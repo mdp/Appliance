@@ -41,6 +41,7 @@ public class WebActivity extends ActionBarActivity {
     private static final String TAG = Appliance.TAG + ":WebActivity";
     public final String DEFAULT_URL = "file:///android_asset/index.html";
     public WebView mWebView;
+    private String mUrlToLoad;
     private SystemUiHider mSystemUiHider;
 
     @Override
@@ -56,11 +57,11 @@ public class WebActivity extends ActionBarActivity {
         enableFullScreenMode();
         setContentView(R.layout.activity_main);
         preventSleep(true);
-        String urlToLoad = (String) getIntent()
+        mUrlToLoad = (String) getIntent()
                 .getSerializableExtra(URL_FIELD);
 
-        if (urlToLoad.isEmpty()) {
-            urlToLoad = DEFAULT_URL;
+        if (mUrlToLoad.isEmpty()) {
+            mUrlToLoad = DEFAULT_URL;
         }
         mWebView = (WebView) findViewById(R.id.fullscreen_webview);
         mWebView.setWebViewClient(new ApplianceWebClient(this));
@@ -72,7 +73,7 @@ public class WebActivity extends ActionBarActivity {
         String databasePath = this.getApplicationContext().getDir("databases", Context.MODE_PRIVATE).getPath();
         settings.setDatabasePath(databasePath);
         mWebView.addJavascriptInterface(new JavascriptBridgeInterface(this), JS_GLOBAL);
-        mWebView.loadUrl(urlToLoad);
+        mWebView.loadUrl(mUrlToLoad);
     }
 
     @Override
@@ -134,7 +135,7 @@ public class WebActivity extends ActionBarActivity {
     }
 
     public void reload() {
-        mWebView.loadUrl(DEFAULT_URL);
+        mWebView.loadUrl(mUrlToLoad);
     }
 
     @Override

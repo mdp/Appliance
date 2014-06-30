@@ -32,34 +32,23 @@ public class JavascriptBridgeInterface {
     }
 
     @JavascriptInterface
-    public void setVolume(int volume) {
-        int vol = deNormalizeVolume(volume);
+    public int setVolume(int volume) {
         AudioManager audioManager = (AudioManager) mHandler.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+        return volume;
     }
 
-    // @return a normalized volume int (0-100);
     @JavascriptInterface
     public int getVolume() {
         AudioManager audioManager = (AudioManager) mHandler.getSystemService(Context.AUDIO_SERVICE);
-        return normalizeVolume(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
-    // Take in Android vol value, return 0-100
-    private int normalizeVolume(int volume) {
+    @JavascriptInterface
+    public int getMaxVolume() {
         AudioManager audioManager = (AudioManager) mHandler.getSystemService(Context.AUDIO_SERVICE);
-        int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        double percent = (double)volume / (double)max;
-        return (int) Math.floor(percent * 100);
-    };
-
-    // Take in 0-100 vol value, return Android stream max normalized
-    private int deNormalizeVolume(int volume) {
-        AudioManager audioManager = (AudioManager) mHandler.getSystemService(Context.AUDIO_SERVICE);
-        int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        double aVol = ((double)volume / 100d) * (double)max;
-        return (int)aVol;
-    };
+        return audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    }
 
     @JavascriptInterface
     public String getOrientation() {
@@ -87,7 +76,7 @@ public class JavascriptBridgeInterface {
     Runnable mWatchdogRunnable = new Runnable() {
         @Override
         public void run() {
-            Toast.makeText(mHandler, "watchdog reload", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mHandler, "Watchdog enforced reload", Toast.LENGTH_SHORT).show();
             mHandler.reload();
         }
     };
