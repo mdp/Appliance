@@ -4,6 +4,8 @@
 
 Building Internet Appliances out of shitty Android devices
 
+Find it on the [Play Store](https://play.google.com/store/apps/details?id=im.mdp.displaydriver)
+
 ### Done
 
 - Fullscreen and Immersive mode(KitKat)
